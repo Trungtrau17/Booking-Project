@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link rel="stylesheet" href="/TravelBooking/Style/styleLogin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<div class="login-container">
+  <!-- form đăng nhập -->
+  
+  <div class="login-box">
+
+    <img src="/TravelBooking/Anh/Logo.png" alt="Logo" class="logo">
+    <form id="loginForm" action="/api/v1/admin/login" method="POST">
+      <div class="input-group">
+        <i class="fas fa-envelope"></i>
+        <input type="email" id="email" placeholder="Email" name="email" required>
+      </div>
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="password" placeholder="Password" name="password" required>
+      </div>
+      <button type="submit" class="login-btn">LOGIN</button>
+    </form>
+    <a href="/api/v1/admin/register" class="signup">Create your Account →</a>
+    <a class="btn btn-secondary mt-3" href=''>⬅ Quay lại</a>
+  </div>
+</div>
+<!-- <script src="Script/Login.js"></script> -->
+</body>
+</html>

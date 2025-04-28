@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Admin - Accounts</title>
+	<link href="/TravelBooking/Admin/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/TravelBooking/Admin/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/TravelBooking/Admin/css/datepicker3.css" rel="stylesheet">
+	<link href="/TravelBooking/Admin/css/styles.css" rel="stylesheet">
+	<link rel="stylesheet" href="/TravelBooking/Style/account.css">
+	
+	<!--Custom Font-->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.min.js"></script>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse"><span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span></button>
+				<a class="navbar-brand" href="#"><span>Booking</span>Admin</a>
+				<a class="navbar-brand" id="logout" href="api/v1/admin/login">Log out</a>
+			</div>
+		</div><!-- /.container-fluid -->
+	</nav>
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+		<form role="search">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>
+		</form>
+		<ul class="nav menu">
+			<li><a href="/api/v1/admin/dashboard"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
+			<li><a href="/api/v1/admin/room"><em class="fa fa-bed">&nbsp;</em>Rooms</a></li>
+			<li class="active"><a href="/api/v1/admin/customer"><em class="fa fa-user-circle">&nbsp;</em>Accounts</a></li>
+			<li><a href="/api/v1/admin/staff"><em class="fa fa-toggle-off">&nbsp;</em>Roles</a></li>
+			<li><a href="/api/v1/admin/payment"><em class="fa fa-clone">&nbsp;</em>Categories</a></li>
+		</ul>
+	</div><!--/.sidebar-->
+
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+		<div class="row">
+			<ol class="breadcrumb">
+				<li><a href="#">
+					<em class="fa fa-home"></em>
+				</a></li>
+				<li class="active">Accounts</li>
+			</ol>
+		</div>
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">User Accounts</h1>
+			</div>
+		</div>
+		
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-md-6">
+						<h4>Account Management</h4>
+					</div>
+					<div class="col-md-6 text-right">
+						<button class="btn btn-success" id="addUserBtn"><i class="fa fa-plus"></i> Add New User</button>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="row search-row">
+					<div class="col-md-8">
+						<div class="input-group">
+							<input type="text" class="form-control" id="searchInput" placeholder="Search by name, email or phone...">
+							<span class="input-group-btn">
+								<button class="btn btn-primary" id="searchBtn" type="button"><i class="fa fa-search"></i> Search</button>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-4 text-right">
+						<button class="btn btn-default" id="refreshBtn"><i class="fa fa-refresh"></i> Refresh</button>
+					</div>
+				</div>
+				
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-hover">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Email</th>
+								<th>Phone</th>
+								<th>Status</th>
+								<th>Address</th>
+								<th>Created</th>
+								<th width="180">Actions</th>
+							</tr>
+						</thead>
+						<tbody id="userList">
+							<!-- User data will be populated here -->
+						</tbody>
+					</table>
+				</div>
+				
+				<div class="text-center" id="pagination">
+					<!-- Pagination buttons will be added here -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <!-- Modal for adding/editing users -->
+    <div id="userModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalTitle">Add New User</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="userForm" class="user-form">
+                        <input type="hidden" id="userId">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="password" required>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" id="togglePassword">Show</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" class="form-control" id="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select class="form-control" id="status">
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <textarea class="form-control" id="address" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for viewing user details -->
+    <div id="viewModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">User Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="userDetails">
+                        <!-- User details will be shown here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<script src="/TravelBooking/Admin/js/jquery-1.11.1.min.js"></script>
+	<script src="/TravelBooking/Admin/js/bootstrap.min.js"></script>
+	<script src="/TravelBooking/Admin/js/chart.min.js"></script>
+	<script src="/TravelBooking/Admin/js/chart-data.js"></script>
+	<script src="/TravelBooking/Admin/js/easypiechart.js"></script>
+	<script src="/TravelBooking/Admin/js/easypiechart-data.js"></script>
+	<script src="/TravelBooking/Admin/js/bootstrap-datepicker.js"></script>
+	<script src="/TravelBooking/Admin/js/custom.js"></script>
+	<script src="/TravelBooking/Admin/js/table.js"></script>
+	
+    <script>
+        // Sample user data - In a real application, this would come from your backend API
+        let users = [
+            {
+                _id: '1',
+                name: 'John Doe',
+                email: 'john@example.com',
+                password: 'password123',
+                phone: '123-456-7890',
+                thumbnail: [],
+                status: 'active',
+                address: '123 Main St, City',
+                deleted: false,
+                token: 'abcdef123456',
+                createdAt: '2023-09-15T10:30:00Z',
+                updatedAt: '2023-10-05T14:20:00Z',
+            },
+            {
+                _id: '2',
+                name: 'Jane Smith',
+                email: 'jane@example.com',
+                password: 'password456',
+                phone: '987-654-3210',
+                thumbnail: [],
+                status: 'inactive',
+                address: '456 Oak Ave, Town',
+                deleted: false,
+                token: 'xyz789012345',
+                createdAt: '2023-07-22T08:15:00Z',
+                updatedAt: '2023-09-18T11:45:00Z',
+            },
+            {
+                _id: '3',
+                name: 'Michael Johnson',
+                email: 'michael@example.com',
+                password: 'password789',
+                phone: '555-123-4567',
+                thumbnail: [],
+                status: 'active',
+                address: '789 Pine Rd, Village',
+                deleted: true,
+                token: 'qwerty654321',
+                createdAt: '2023-08-10T16:20:00Z',
+                updatedAt: '2023-10-12T09:30:00Z',
+            }
+        ];
+
+        // Variables for pagination
+        let currentPage = 1;
+        const rowsPerPage = 10;
+        let filteredUsers = [...users];
+
+        // DOM elements
+        const userList = document.getElementById('userList');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const addUserBtn = document.getElementById('addUserBtn');
+        const pagination = document.getElementById('pagination');
+        const modalTitle = document.getElementById('modalTitle');
+        const userDetails = document.getElementById('userDetails');
+        const togglePasswordBtn = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        const saveBtn = document.getElementById('saveBtn');
+
+        // Initialize the dashboard
+        $(document).ready(function() {
+            renderUsers();
+            setupEventListeners();
+        });
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Search functionality
+            searchBtn.addEventListener('click', handleSearch);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleSearch();
+            });
+
+            // Refresh button
+            refreshBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                filteredUsers = [...users];
+                currentPage = 1;
+                renderUsers();
+            });
+
+            // Add user button
+            addUserBtn.addEventListener('click', () => openAddUserModal());
+
+            // Submit form
+            saveBtn.addEventListener('click', handleFormSubmit);
+
+            // Toggle password visibility
+            togglePasswordBtn.addEventListener('click', togglePasswordVisibility);
+        }
+
+        // Render users to the table
+        function renderUsers() {
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedUsers = filteredUsers.slice(start, end);
+            
+            userList.innerHTML = '';
+            
+            if (paginatedUsers.length === 0) {
+                userList.innerHTML = '<tr><td colspan="7" class="text-center">No users found</td></tr>';
+                pagination.innerHTML = '';
+                return;
+            }
+
+            paginatedUsers.forEach(user => {
+                const row = document.createElement('tr');
+                if (user.deleted) row.classList.add('deleted');
+                
+                row.innerHTML = `
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.phone || '-'}</td>
+                    <td><span class="label label-${user.status === 'active' ? 'success' : 'danger'}">${user.status}</span></td>
+                    <td>${user.address || '-'}</td>
+                    <td>${formatDate(user.createdAt)}</td>
+                    <td class="action-buttons">
+                        <button class="btn btn-info btn-sm btn-view" data-id="${user._id}"><i class="fa fa-eye"></i> View</button>
+                        <button class="btn btn-warning btn-sm btn-edit" data-id="${user._id}"><i class="fa fa-pencil"></i> Edit</button>
+                        <button class="btn btn-danger btn-sm btn-delete" data-id="${user._id}">
+                            <i class="fa fa-${user.deleted ? 'undo' : 'trash'}"></i> ${user.deleted ? 'Restore' : 'Delete'}
+                        </button>
+                    </td>
+                `;
+                
+                userList.appendChild(row);
+            });
+
+            // Add event listeners to the action buttons
+            $('.btn-view').click(function() {
+                viewUser($(this).data('id'));
+            });
+            
+            $('.btn-edit').click(function() {
+                editUser($(this).data('id'));
+            });
+            
+            $('.btn-delete').click(function() {
+                toggleDeleteUser($(this).data('id'));
+            });
+
+            renderPagination();
+        }
+
+        // Render pagination controls
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredUsers.length / rowsPerPage);
+            pagination.innerHTML = '';
+            
+            if (totalPages <= 1) return;
+
+            let paginationHtml = '<ul class="pagination">';
+            
+            // Previous button
+            paginationHtml += `
+                <li class="${currentPage === 1 ? 'disabled' : ''}">
+                    <a href="#" aria-label="Previous" ${currentPage > 1 ? 'data-page="' + (currentPage - 1) + '"' : ''}>
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            `;
+
+            // Page buttons
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + 4);
+            if (endPage - startPage < 4) {
+                startPage = Math.max(1, endPage - 4);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHtml += `
+                    <li class="${i === currentPage ? 'active' : ''}">
+                        <a href="#" data-page="${i}">${i} ${i === currentPage ? '<span class="sr-only">(current)</span>' : ''}</a>
+                    </li>
+                `;
+            }
+
+            // Next button
+            paginationHtml += `
+                <li class="${currentPage === totalPages ? 'disabled' : ''}">
+                    <a href="#" aria-label="Next" ${currentPage < totalPages ? 'data-page="' + (currentPage + 1) + '"' : ''}>
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            `;
+            
+            paginationHtml += '</ul>';
+            pagination.innerHTML = paginationHtml;
+
+            // Add event listeners to pagination links
+            $('#pagination a[data-page]').click(function(e) {
+                e.preventDefault();
+                currentPage = parseInt($(this).data('page'));
+                renderUsers();
+            });
+        }
+
+        // Search users
+        function handleSearch() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            if (searchTerm === '') {
+                filteredUsers = [...users];
+            } else {
+                filteredUsers = users.filter(user => 
+                    user.name.toLowerCase().includes(searchTerm) ||
+                    user.email.toLowerCase().includes(searchTerm) ||
+                    (user.phone && user.phone.toLowerCase().includes(searchTerm))
+                );
+            }
+            currentPage = 1;
+            renderUsers();
+        }
+
+        // Open the add user modal
+        function openAddUserModal() {
+            modalTitle.textContent = 'Add New User';
+            $('#userForm').trigger('reset');
+            document.getElementById('userId').value = '';
+            $('#userModal').modal('show');
+        }
+
+        // View user details
+        function viewUser(userId) {
+            const user = users.find(u => u._id === userId);
+            if (!user) return;
+
+            userDetails.innerHTML = `
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th width="30%">Name</th>
+                            <td>${user.name}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>${user.email}</td>
+                        </tr>
+                        <tr>
+                            <th>Phone</th>
+                            <td>${user.phone || '-'}</td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td><span class="label label-${user.status === 'active' ? 'success' : 'danger'}">${user.status}</span></td>
+                        </tr>
+                        <tr>
+                            <th>Address</th>
+                            <td>${user.address || '-'}</td>
+                        </tr>
+                        <tr>
+                            <th>Deleted</th>
+                            <td>${user.deleted ? 'Yes' : 'No'}</td>
+                        </tr>
+                        <tr>
+                            <th>Created</th>
+                            <td>${formatDate(user.createdAt)}</td>
+                        </tr>
+                        <tr>
+                            <th>Last Updated</th>
+                            <td>${formatDate(user.updatedAt)}</td>
+                        </tr>
+                        <tr>
+                            <th>Token</th>
+                            <td><code>${user.token}</code></td>
+                        </tr>
+                    </table>
+                </div>
+            `;
+
+            $('#viewModal').modal('show');
+        }
+
+        // Edit user
+        function editUser(userId) {
+            const user = users.find(u => u._id === userId);
+            if (!user) return;
+
+            modalTitle.textContent = 'Edit User';
+            document.getElementById('userId').value = user._id;
+            document.getElementById('name').value = user.name;
+            document.getElementById('email').value = user.email;
+            document.getElementById('password').value = user.password;
+            document.getElementById('phone').value = user.phone || '';
+            document.getElementById('status').value = user.status;
+            document.getElementById('address').value = user.address || '';
+
+            $('#userModal').modal('show');
+        }
+
+        // Toggle delete/restore user
+        function toggleDeleteUser(userId) {
+            const userIndex = users.findIndex(u => u._id === userId);
+            if (userIndex === -1) return;
+
+            users[userIndex].deleted = !users[userIndex].deleted;
+            users[userIndex].updatedAt = new Date().toISOString();
+            
+            // Update filtered users
+            filteredUsers = [...users];
+            if (searchInput.value.trim() !== '') {
+                handleSearch();
+            } else {
+                renderUsers();
+            }
+        }
+
+        // Handle form submission
+        function handleFormSubmit() {
+            const userId = document.getElementById('userId').value;
+            const newUser = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                phone: document.getElementById('phone').value,
+                status: document.getElementById('status').value,
+                address: document.getElementById('address').value,
+                updatedAt: new Date().toISOString()
+            };
+
+            // Update or add user
+            if (userId) {
+                // Edit existing user
+                const userIndex = users.findIndex(u => u._id === userId);
+                if (userIndex !== -1) {
+                    users[userIndex] = { ...users[userIndex], ...newUser };
+                }
+            } else {
+                // Add new user
+                const newId = (parseInt(users[users.length - 1]?._id || '0') + 1).toString();
+                users.push({
+                    _id: newId,
+                    ...newUser,
+                    deleted: false,
+                    thumbnail: [],
+                    token: generateToken(),
+                    createdAt: new Date().toISOString()
+                });
+            }
+
+            // Update filtered users
+            filteredUsers = [...users];
+            if (searchInput.value.trim() !== '') {
+                handleSearch();
+            } else {
+                renderUsers();
+            }
+
+            // Close the modal
+            $('#userModal').modal('hide');
+        }
+
+        // Toggle password visibility
+        function togglePasswordVisibility() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePasswordBtn.textContent = 'Hide';
+            } else {
+                passwordInput.type = 'password';
+                togglePasswordBtn.textContent = 'Show';
+            }
+        }
+
+        // Format date for display
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+        }
+
+        // Generate random token
+        function generateToken(length = 16) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let token = '';
+            for (let i = 0; i < length; i++) {
+                token += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return token;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+.tab-content {
+    padding: 20px 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.nav-tabs {
+    margin-bottom: 20px;
+}
+
+.table-responsive {
+    margin-top: 20px;
+}
+
+.search-filter {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.status-available {
+    color: #5cb85c;
+    font-weight: bold;
+}
+
+.status-occupied, .status-reserved {
+    color: #d9534f;
+    font-weight: bold;
+}
+
+.status-maintenance, .status-cleaning {
+    color: #f0ad4e;
+    font-weight: bold;
+}
+
+.action-buttons {
+    white-space: nowrap;
+}
+
+.action-buttons .btn {
+    margin-right: 5px;
+}
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.alert {
+    display: none;
+}

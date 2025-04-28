@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Admin - Nhân viên</title>
+	<link href="/TravelBooking/Admin/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/TravelBooking/Admin/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/TravelBooking/Admin/css/datepicker3.css" rel="stylesheet">
+	<link href="/TravelBooking/Admin/css/styles.css" rel="stylesheet">
+	<link rel="stylesheet" href="/TravelBooking/Style/role.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	
+	<!--Custom Font-->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.min.js"></script>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse"><span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span></button>
+				<a class="navbar-brand" href="#"><span>Booking</span>Admin</a>
+				<a class="navbar-brand" id="logout" href="api/v1/admin/login">Log out</a>
+			</div>
+		</div><!-- /.container-fluid -->
+	</nav>
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+		<form role="search">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>
+		</form>
+		<ul class="nav menu">
+			<li><a href="/api/v1/admin/dashboard"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
+			<li><a href="/api/v1/admin/room"><em class="fa fa-bed">&nbsp;</em>Rooms</a></li>
+			<li><a href="/api/v1/admin/account"><em class="fa fa-user-circle">&nbsp;</em>Accounts</a></li>
+			<li class="active"><a href="/api/v1/admin/role"><em class="fa fa-toggle-off">&nbsp;</em>Roles</a></li>
+			<li><a href="/api/v1/admin/category"><em class="fa fa-clone">&nbsp;</em>Categories</a></li>
+		</ul>
+	</div><!--/.sidebar-->
+		
+	<!-- Main Content -->
+	<div class="main-content">
+		<div class="page-header">
+			<h1 class="page-title">Role Management</h1>
+			<button class="btn btn-primary" id="btnAddRole">
+				<i class="fas fa-plus"></i> Add New Role
+			</button>
+		</div>
+
+		<!-- Alert message area -->
+		<div id="alertMessage" style="display: none;" class="alert"></div>
+
+		<!-- Search and filter bar -->
+		<div class="search-bar">
+			<div class="search-input">
+				<input type="text" class="form-control" placeholder="Search roles...">
+				<button class="btn btn-primary">
+					<i class="fas fa-search"></i>
+				</button>
+			</div>
+		</div>
+
+		<!-- Roles Table -->
+		<div class="card">
+			<div class="card-header">
+				<div>Roles List</div>
+			</div>
+			<div class="card-body">
+				<div class="table-container">
+					<table id="rolesTable">
+						<thead>
+							<tr>
+								<th>Title</th>
+								<th>Description</th>
+								<th>Permissions</th>
+								<th>Created By</th>
+								<th>Created At</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody id="rolesTableBody">
+							<!-- This will be populated with JavaScript -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<!-- Manage Permissions Card -->
+		<div class="card">
+			<div class="card-header">
+				<div>Role Permissions</div>
+				<button class="btn btn-primary btn-sm" id="btnManagePermissions">
+					<i class="fas fa-key"></i> Manage All Permissions
+				</button>
+			</div>
+			<div class="card-body">
+				<p>Adjust permissions for all roles at once. This lets you define which actions different roles can perform in the system.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Add/Edit Role Modal -->
+<div id="roleModal" class="modal">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h2 class="modal-title" id="roleModalTitle">Add New Role</h2>
+			<span class="close" id="closeRoleModal">&times;</span>
+		</div>
+		<div class="modal-body">
+			<form id="roleForm">
+				<input type="hidden" id="roleId">
+				<div class="form-group">
+					<label for="roleTitle" class="form-label">Title</label>
+					<input type="text" id="roleTitle" class="form-control" required>
+				</div>
+				
+				<div class="form-group">
+					<label for="roleDescription" class="form-label">Description</label>
+					<textarea id="roleDescription" class="form-control"></textarea>
+				</div>
+				
+				<div class="form-group">
+					<label class="form-label">Permissions</label>
+					<div class="permissions-container" id="permissionsContainer">
+						<!-- This will be populated with JavaScript -->
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-danger" id="btnCancelRole">Cancel</button>
+			<button type="button" class="btn btn-success" id="btnSaveRole">Save</button>
+		</div>
+	</div>
+</div>
+
+<!-- Manage All Permissions Modal -->
+<div id="permissionsModal" class="modal">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h2 class="modal-title">Manage All Role Permissions</h2>
+			<span class="close" id="closePermissionsModal">&times;</span>
+		</div>
+		<div class="modal-body">
+			<div class="tabs" id="roleTabs">
+				<!-- Role tabs will be populated with JavaScript -->
+			</div>
+			
+			<div id="roleTabContents">
+				<!-- Permission checkboxes for each role will be populated here -->
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-danger" id="btnCancelPermissions">Cancel</button>
+			<button type="button" class="btn btn-success" id="btnSavePermissions">Save All Permissions</button>
+		</div>
+	</div>
+</div>
+	
+<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="/TravelBooking/Admin/js/bootstrap.min.js"></script>
+	<script src="/TravelBooking/Admin/js/chart.min.js"></script>
+	<script src="/TravelBooking/Admin/js/chart-data.js"></script>
+	<script src="/TravelBooking/Admin/js/easypiechart.js"></script>
+	<script src="/TravelBooking/Admin/js/easypiechart-data.js"></script>
+	<script src="/TravelBooking/Admin/js/bootstrap-datepicker.js"></script>
+	<script src="/TravelBooking/Admin/js/custom.js"></script>
+	
+</body>
+</html>

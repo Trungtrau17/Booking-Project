@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Admin - Khách hàng</title>
+	<link href="/TravelBooking/Admin/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/TravelBooking/Admin/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/TravelBooking/Admin//TravelBooking/Admin/css/datepicker3.css" rel="stylesheet">
+	<link href="/TravelBooking/Admin/css/styles.css" rel="stylesheet">
+	<link rel="stylesheet" href="/TravelBooking/Style/account.css">
+	
+	<!--Custom Font-->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.min.js"></script>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse"><span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span></button>
+				<a class="navbar-brand" href="#"><span>Booking</span>Admin</a>
+				<a class="navbar-brand" id="logout" href="api/v1/admin/login">Log out</a>
+			</div>
+		</div><!-- /.container-fluid -->
+	</nav>
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+		<form role="search">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>
+		</form>
+		<ul class="nav menu">
+			<li><a href="/api/v1/admin/dashboard"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
+			<li><a href="/api/v1/admin/room"><em class="fa fa-bed">&nbsp;</em>Rooms</a></li>
+			<li class="active"><a href="/api/v1/admin/account"><em class="fa fa-user-circle">&nbsp;</em>Accounts</a></li>
+			<li><a href="/api/v1/admin/role"><em class="fa fa-toggle-off">&nbsp;</em>Roles</a></li>
+			<li><a href="/api/v1/admin/category"><em class="fa fa-clone">&nbsp;</em>Categories</a></li>
+		</ul>
+	</div><!--/.sidebar-->
+
+	<div class="container">
+        <header>
+            <h1>User Admin Dashboard</h1>
+        </header>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search by name, email or phone...">
+            <button id="searchBtn">Search</button>
+            <button class="btn-refresh" id="refreshBtn">Refresh</button>
+        </div>
+
+        <div id="userTable">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                        <th>Address</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="userList">
+                    <!-- User data will be populated here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination" id="pagination">
+            <!-- Pagination buttons will be added here -->
+        </div>
+    </div>
+
+    <!-- Modal for adding/editing users -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Add New User</h2>
+            <form id="userForm" class="user-form">
+                <input type="hidden" id="userId">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group password-field">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                    <button type="button" class="toggle-password" id="togglePassword">Show</button>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone">
+                </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea id="address" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancelBtn">Cancel</button>
+                    <button type="submit" id="saveBtn">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for viewing user details -->
+    <div id="viewModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>User Details</h2>
+            <div id="userDetails">
+                <!-- User details will be shown here -->
+            </div>
+            <div class="form-actions">
+                <button type="button" id="closeViewBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+
+
+	<script src="/TravelBooking/Script/account.js"></script>
+	<script src="/TravelBooking/Admin/js/jquery-1.11.1.min.js"></script>
+	<script src="/TravelBooking/Admin/js/bootstrap.min.js"></script>
+	<script src="/TravelBooking/Admin/js/chart.min.js"></script>
+	<script src="/TravelBooking/Admin/js/chart-data.js"></script>
+	<script src="/TravelBooking/Admin/js/easypiechart.js"></script>
+	<script src="/TravelBooking/Admin/js/easypiechart-data.js"></script>
+	<script src="/TravelBooking/Admin/js/bootstrap-datepicker.js"></script>
+	<script src="/TravelBooking/Admin/js/custom.js"></script>
+		<script src="/TravelBooking/Admin/js/table.js"></script>
+</body>
+</html>

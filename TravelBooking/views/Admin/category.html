@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Room Category Management</title>
+	<link href="/TravelBooking/Admin/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/TravelBooking/Admin/css/font-awesome.min.css" rel="stylesheet">
+	<link href="/TravelBooking/Admin/css/datepicker3.css" rel="stylesheet">
+	<link href="/TravelBooking/Admin/css/styles.css" rel="stylesheet">
+	<link rel="stylesheet" href="/TravelBooking/Style/category.css">
+	
+	<!--Custom Font-->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.min.js"></script>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#"><span>Booking</span>Admin</a>
+				<a class="navbar-brand" id="logout" href="api/v1/admin/login">Log out</a>
+			</div>
+		</div><!-- /.container-fluid -->
+	</nav>
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+		<form role="search">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>
+		</form>
+		<ul class="nav menu">
+			<li><a href="/api/v1/admin/dashboard"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
+			<li><a href="/api/v1/admin/room"><em class="fa fa-bed">&nbsp;</em> Rooms</a></li>
+			<li><a href="/api/v1/admin/account"><em class="fa fa-user-circle">&nbsp;</em> Accounts</a></li>
+			<li><a href="/api/v1/admin/role"><em class="fa fa-toggle-off">&nbsp;</em> Roles</a></li>
+			<li class="active"><a href="/api/v1/admin/category"><em class="fa fa-clone">&nbsp;</em> Categories</a></li>
+		</ul>
+	</div><!--/.sidebar-->
+		
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+		<div class="row">
+			<ol class="breadcrumb">
+				<li><a href="/api/v1/admin/dashboard"><em class="fa fa-home"></em></a></li>
+				<li class="active">Room Categories</li>
+			</ol>
+		</div>
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Room Category Management</h1>
+			</div>
+		</div>
+        
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="tabs">
+                            <div class="tab active" data-tab="add-category">Add Category</div>
+                            <div class="tab" data-tab="list-categories">List Categories</div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel-body">
+                        <div class="alert alert-success" id="successAlert" style="display: none;">Operation completed successfully!</div>
+                        <div class="alert alert-danger" id="errorAlert" style="display: none;">Error occurred. Please try again.</div>
+                        
+                        <!-- Add Category Tab -->
+                        <div class="tab-content active" id="add-category">
+                            <form id="addCategoryForm">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="title">Category Title*</label>
+                                            <input type="text" id="title" name="title" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="parentId">Parent Category</label>
+                                            <select id="parentId" name="parentId" class="form-control">
+                                                <option value="">-- No Parent (Main Category) --</option>
+                                                <!-- Will be populated dynamically -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="position">Display Order</label>
+                                            <input type="number" id="position" name="position" class="form-control" min="1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="status">Status</label>
+                                            <select id="status" name="status" class="form-control">
+                                                <option value="active">Active</option>
+                                                <option value="inactive">Inactive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="feature">Featured Amenities</label>
+                                    <input type="text" id="feature" name="feature" class="form-control" placeholder="e.g. WiFi, Mini Bar, Sea View (separate with commas)">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea id="description" name="description" class="form-control" rows="4"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="thumbnail">Thumbnail Images</label>
+                                    <input type="file" id="thumbnail" name="thumbnail" class="form-control" multiple>
+                                    <div class="thumbnail-preview" id="thumbnailPreview"></div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-default" id="resetBtn">Reset</button>
+                                    <button type="submit" class="btn btn-primary">Add Category</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- List Categories Tab -->
+                        <div class="tab-content" id="list-categories">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group search-bar">
+                                        <input type="text" id="categorySearch" class="form-control" placeholder="Search by title...">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary search-btn" type="button">Search</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <div class="form-group">
+                                        <label for="statusFilter" class="sr-only">Filter by Status</label>
+                                        <select id="statusFilter" class="form-control" style="display: inline-block; width: auto;">
+                                            <option value="">All Statuses</option>
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="category-list">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Title</th>
+                                            <th>Parent</th>
+                                            <th>Position</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="categoryTableBody">
+                                        <!-- Will be populated dynamically -->
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Deluxe Room</td>
+                                            <td>-</td>
+                                            <td>1</td>
+                                            <td><span class="label label-success">Active</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn"><em class="fa fa-pencil"></em> Edit</button>
+                                                <button class="btn btn-sm btn-danger delete-btn"><em class="fa fa-trash"></em> Delete</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Suite</td>
+                                            <td>-</td>
+                                            <td>2</td>
+                                            <td><span class="label label-success">Active</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn"><em class="fa fa-pencil"></em> Edit</button>
+                                                <button class="btn btn-sm btn-danger delete-btn"><em class="fa fa-trash"></em> Delete</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Standard Room</td>
+                                            <td>-</td>
+                                            <td>3</td>
+                                            <td><span class="label label-danger">Inactive</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn"><em class="fa fa-pencil"></em> Edit</button>
+                                                <button class="btn btn-sm btn-danger delete-btn"><em class="fa fa-trash"></em> Delete</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="text-center">
+                                <ul class="pagination" id="pagination">
+                                    <li class="disabled"><a href="#">&laquo;</a></li>
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">&raquo;</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Edit Category Form (Hidden by default) -->
+                        <div class="tab-content" id="edit-category">
+                            <form id="editCategoryForm">
+                                <input type="hidden" id="editCategoryId">
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="editTitle">Category Title*</label>
+                                            <input type="text" id="editTitle" name="title" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="editParentId">Parent Category</label>
+                                            <select id="editParentId" name="parentId" class="form-control">
+                                                <option value="">-- No Parent (Main Category) --</option>
+                                                <!-- Will be populated dynamically -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="editPosition">Display Order</label>
+                                            <input type="number" id="editPosition" name="position" class="form-control" min="1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="editStatus">Status</label>
+                                            <select id="editStatus" name="status" class="form-control">
+                                                <option value="active">Active</option>
+                                                <option value="inactive">Inactive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="editFeature">Featured Amenities</label>
+                                    <input type="text" id="editFeature" name="feature" class="form-control" placeholder="e.g. WiFi, Mini Bar, Sea View (separate with commas)">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="editDescription">Description</label>
+                                    <textarea id="editDescription" name="description" class="form-control" rows="4"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="editThumbnail">Thumbnail Images</label>
+                                    <input type="file" id="editThumbnail" name="thumbnail" class="form-control" multiple>
+                                    <div class="thumbnail-preview" id="editThumbnailPreview"></div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-default" id="cancelEditBtn">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Update Category</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/TravelBooking/Admin/js/jquery-1.11.1.min.js"></script>
+    <script src="/TravelBooking/Admin/js/bootstrap.min.js"></script>
+    <script src="/TravelBooking/Admin/js/chart.min.js"></script>
+    <script src="/TravelBooking/Admin/js/chart-data.js"></script>
+    <script src="/TravelBooking/Admin/js/easypiechart.js"></script>
+    <script src="/TravelBooking/Admin/js/easypiechart-data.js"></script>
+    <script src="/TravelBooking/Admin/js/bootstrap-datepicker.js"></script>
+    <script src="/TravelBooking/Admin/js/custom.js"></script>
+    <script src="/TravelBooking/Script/category.js"></script>
+    
+    
+</body>
+</html>

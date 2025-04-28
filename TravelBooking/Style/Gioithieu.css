@@ -1,0 +1,477 @@
+.hero {
+    background: url('https://via.placeholder.com/1500x600') no-repeat center center/cover;
+    background-size:cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+}
+.nav-link:hover {
+    text-decoration: underline;
+}
+
+.tour-card img {
+    height: 200px;
+    object-fit: cover;
+}
+.navbar-brand {
+    position: absolute;
+    left: 10%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-weight: bold;
+}
+
+.navbar .nav-link {
+    padding: 8px 15px;
+}
+.nav-item {
+    margin: 0 30px;
+    font-size: 16px;
+    font-weight: bold;
+}
+/* Kéo thanh tasbar*/
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+    background-color: #6ffcbf !important; 
+}
+.mcp-placeholder{
+    color: black;
+    font-weight: 50;
+    font-size: 16px;
+    font-family: Godwit, sans-serif;
+    line-height:1.8;
+}
+
+.image-container {
+    max-width: 100%; /* Đảm bảo ảnh không vượt quá kích thước container */
+    height: auto; /* Giữ tỷ lệ khung hình */
+    position: relative; /* Để top: -10px hoạt động */
+    top: -10px; /* Dịch chuyển ảnh lên trên 10px */
+    overflow: hidden; /* Tránh lỗi tràn ảnh */
+}
+
+.image-container img {
+    width: 100%; /* Đảm bảo ảnh co giãn đúng */
+    height: auto; /* Giữ nguyên tỷ lệ ảnh */
+    object-fit: cover; /* Đảm bảo ảnh không bị méo */
+}
+
+.list-container {
+    display: flex; /* Sử dụng Flexbox để căn ảnh và nội dung */
+    flex-direction: row;
+    align-items: flex-start; /* Căn giữa theo chiều dọc */
+    justify-content: space-between;
+    gap: 100px; /* Tạo khoảng cách giữa ảnh và nội dung */
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.hotel-list {
+    max-width: 50%;
+    flex: 1;
+}
+
+.hotel-item {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    align-items: flex-start;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hotel-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.hotel-info {
+    flex-grow: 1;
+}
+
+.hotel-info h4 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.hotel-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: gray;
+}
+
+.price {
+    font-size: 16px;
+    color: black;
+}
+
+.rating {
+    background: blue;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+
+#login{
+    border: 1px solid black;
+    outline: 2px dashed rgba(0, 123, 255, 0.5);
+    padding: 10px 15px;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-size:16px;
+}
+#login:hover{
+    background-color: #2e689e;
+}
+.search-bar {
+    position: absolute;
+    top: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1050; /* Đảm bảo nó ở trên slider */
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 10px;
+}
+
+
+.search-field {
+    position: relative;
+}
+
+
+input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 150px;
+    cursor: pointer;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    background: white;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    top: 40px;
+    z-index: 1000;
+}
+
+.dropdown .option {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.dropdown .option:hover {
+    background: #f0f0f0;
+}
+
+.counter {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+}
+
+.search-bar button {
+    cursor: pointer;
+    background: #011e3d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.search-bar button.minus,
+.search-bar button.plus {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* Dropdown cho địa điểm */
+.location-dropdown {
+    display: none; /* Ẩn mặc định */
+    position: absolute;
+    background: white;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    top: 40px;
+    z-index: 1000;
+}
+
+.location-dropdown .option {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.location-dropdown .option:hover {
+    background: #f0f0f0;
+}
+
+.headContent{
+    padding-top: 10px;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+    bottom: -100px;
+    width: 100%;
+}
+.footer-container {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.footer-nav {
+    display: flex;
+    gap: 100px; /* Khoảng cách giữa các link */
+}
+
+.footer-nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 14px;
+}
+
+.footer-nav a:hover {
+    text-decoration: underline;
+}
+
+/* mo ta room*/
+.hotel-container {
+    display: flex;
+    width: 90vw;
+    margin: 5px auto;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hotel-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ddd;
+}
+
+.hotel-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hotel-info {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.status {
+    font-size: 16px;
+}
+
+.available {
+    color: green;
+    font-weight: bold;
+}
+
+.category {
+    font-size: 14px;
+    color: #666;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #007bff;
+}
+
+.services {
+    margin: 15px 0;
+}
+
+.services span {
+    background: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 5px;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.buttons {
+    margin-top: 20px;
+}
+
+button {
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-top: auto;
+}
+
+.book-now {
+    background: #007bff;
+    color: white;
+}
+
+.add-to-cart {
+    background: #ddd;
+    color: black;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+/* Mo ta chi tiet */
+.room-details {
+    max-width: 900px;
+    margin: -470px 0px 0px 50px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.room-details h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.room-details p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.6;
+}
+
+.room-details ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.room-details li {
+    background: #f8f9fa;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/*Rating*/
+.rate-container{
+    box-sizing: border-box;
+    width: 500px;
+    margin-left: 970px;
+}
+.rating-card {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: white;
+}
+
+.main-rating {
+    outline: 1px solid #e0e0e0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    background-color: #f8f9fa;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.rating-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.review-count {
+    color: #666;
+    outline:1px;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+.rating-categories {
+    margin-top: 20px;
+}
+
+.rating-category {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.category-name {
+    font-weight: 500;
+    color: #555;
+}
+
+.category-score {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Hạng mục được cải thiện */
+.improved {
+    color: #28a745;
+}
+
+.improved i {
+    margin-left: 5px;
+    font-size: 0.8em;
+}
+

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/TravelBooking/Style/styleLogin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+            <div class="form-box" id="signup-form">
+                <h2>Create Account</h2>
+                <form id="dataForm" action="/api/v1/client/register" method="POST">
+                  <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input id = 'fullname' type="text" placeholder="Full Name" name="name" required>
+                  </div>
+                  <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input id = 'email' type="email" placeholder="Email" name="email" required>
+                  </div>
+                  <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input id = 'password' type="password" placeholder="Password" name="password" required>
+                  </div>
+                  <button type="submit" class="login-btn">SIGN UP</button>
+                </form>
+                <a href="/api/v1/client/login" class="back-to-login">Already have an account? Login →</a>
+              </div>
+      </div>
+</body>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lưu trú - Travel Booking</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="/TravelBooking/Style/Gioithieu.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand mx-auto" href="/api/v1/client">Travel Booking</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="/api/v1/client">Trang chủ</a></li>
+        <li class="nav-item"><a class="nav-link" href="/api/v1/client/location">Lưu trú</a> </li>
+        <li class="nav-item"><a class="nav-link" href="#">Tin tức</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Liên hệ</a></li>
+      </ul>
+    </div>
+    <a class="nav-link" id="login" href="/api/v1/client/login">Đăng nhập/Đăng ký</a></li>
+  </div>
+</nav>
+
+<div class="hotel-container">
+  <!-- Ảnh khách sạn -->
+  <div class="hotel-image">
+    <img src="/TravelBooking/Anh/slide1.jpg" alt="Khách sạn sang trọng">
+  </div>
+
+  <!-- Thông tin khách sạn -->
+  <div class="hotel-info">
+    <h1>Khách sạn Luxury Five Stars</h1>
+    <p class="status"><span class="available">Còn phòng</span></p>
+    <p class="category">Thể loại: Khách sạn cao cấp, Nghỉ dưỡng, 5 sao</p>
+    <p class="price">Phòng: <Strong>1-2 người</Strong></p>
+    <p class="price">Giá: <strong>2.500.000đ / đêm</strong></p>
+
+    <!-- Danh sách dịch vụ -->
+    <div class="services">
+      <span>Hồ bơi</span>
+      <span>Gym</span>
+      <span>Nhà hàng</span>
+      <span>WiFi miễn phí</span>
+      <span>Xe đưa đón</span>
+    </div>
+
+    <!-- Nút đặt phòng -->
+    <div class="buttons">
+      <button class="book-now">Đặt ngay</button>
+      <button class="add-to-cart">Thêm vào danh sách</button>
+    </div>
+  </div>
+</div>
+
+<!-- Đánh giá -->
+<div class="rate-container mt-4">
+  <div class="rating-card">
+    <h1 class="rating-title">Đánh giá của khách</h1>
+
+    <div class="d-flex justify-content-between mb-3">
+      <span class="main-rating me-2">9.1</span>
+      <div>
+        <div class="fw-bold">Tuyệt hảo</div>
+        <div class="review-count">- 679 đánh giá</div>
+      </div>
+    </div>
+
+    <div class="rating-categories">
+      <div class="rating-category">
+        <span class="category-name">Nhân viên phục vụ</span>
+        <span class="category-score improved">9.8 <i class="fas fa-arrow-up"></i></span>
+      </div>
+      <div class="rating-category">
+        <span class="category-name">Tiện nghi</span>
+        <span class="category-score">9.8</span>
+      </div>
+      <div class="rating-category">
+        <span class="category-name">Sạch sẽ</span>
+        <span class="category-score">9.1</span>
+      </div>
+      <div class="rating-category">
+        <span class="category-name">Thoải mái</span>
+        <span class="category-score">9.4</span>
+      </div>
+      <div class="rating-category">
+        <span class="category-name">Đáng giá tiền</span>
+        <span class="category-score">9.3</span>
+      </div>
+      <div class="rating-category">
+        <span class="category-name">Địa điểm</span>
+        <span class="category-score improved">9.4 <i class="fas fa-arrow-up"></i></span>
+      </div>
+      <div class="rating-category">
+        <span class="category-name">WIFI miễn phí</span>
+        <span class="category-score improved">9.7 <i class="fas fa-arrow-up"></i></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="room-details">
+  <h2>Mô tả chi tiết phòng</h2>
+  <p>Phòng rộng 40m² với thiết kế hiện đại, cửa sổ lớn hướng biển, giường king-size, điều hòa, TV 50 inch, minibar, và phòng tắm riêng với bồn tắm sang trọng.</p>
+  <ul>
+    <li>Diện tích: 40m²</li>
+    <li>Hướng: Biển</li>
+    <li>Giường: King-size</li>
+    <li>Tiện nghi: Điều hòa, TV 50", Minibar, Bồn tắm</li>
+    <li>Giá đã bao gồm bữa sáng buffet</li>
+  </ul>
+</div>
+
+<footer class="footer bg-primary">
+  <div class="footer-container">
+    <p>&copy; 2025 Hotel Management. All rights reserved.</p>
+    <nav class="footer-nav">
+      <a href="/api/v1/client">Home</a>
+      <a href="*">Rooms</a>
+      <a href="*">Staff</a>
+      <a href="*">Billing</a>
+      <a href="*">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="Script/places.js"></script>
+<script src="Script/Menu.js"></script>
+</body>
+</html>
